@@ -356,7 +356,18 @@ void setup() {
     // Configure watchdog with longer timeout for mining
     // Mining loops will yield periodically via vTaskDelay(1)
     Serial.println("[INIT] Configuring watchdog timer (30s timeout)...");
-    esp_task_wdt_init(30, true);  // 30 second timeout, panic on trigger
+#if defined(CONFIG_IDF_TARGET_ESP32C6) || defined(ESP_IDF_VERSION_MAJOR) && (ESP_IDF_VERSION_MAJOR >= 5)
+    // Arduino-ESP32 3.x / ESP-IDF 5.x API
+    esp_task_wdt_config_t twdt_config = {
+        .timeout_ms = 30000,        // 30 seconds
+        .idle_core_mask = 0,        // don't subscribe idle tasks (mining holds CPU)
+        .trigger_panic = true
+    };
+    esp_task_wdt_deinit();          // reset if already initialized by framework
+    esp_task_wdt_init(&twdt_config);
+#else
+    esp_task_wdt_init(30, true);    // 30 second timeout, panic on trigger (old API)
+#endif
 
     // Disable power management (no CPU throttling/sleep)
     setupPowerManagement();
