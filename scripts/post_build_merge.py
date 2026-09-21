@@ -24,6 +24,8 @@ def detect_esp32_type(bootloader_path):
 
         if chip_id == 0x09 and size >= 15000:
             return 'ESP32-S3'
+        elif chip_id == 0x0D:  # ESP32-C6
+            return 'ESP32-C6'
         elif chip_id == 0x05 and size >= 13000 and size < 14000:
             return 'ESP32-C3'
         elif chip_id == 0x02 and size >= 13000 and size < 15000:
