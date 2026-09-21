@@ -5,6 +5,10 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+  actions: write
+
 jobs:
   build:
     name: build esp32-c6-supermini
@@ -37,12 +41,10 @@ jobs:
           OUT=firmware/esp32-c6-supermini
           mkdir -p "$OUT"
 
-          # post_build_merge.py пишет в firmware/dev/ (нет git-тегов)
           if [ -f firmware/dev/esp32-c6-supermini_factory.bin ]; then
             cp firmware/dev/esp32-c6-supermini_factory.bin  "$OUT/"
             cp firmware/dev/esp32-c6-supermini_firmware.bin "$OUT/"
           elif [ -f .pio/build/esp32-c6-supermini/firmware.factory.bin ]; then
-            # fallback: то, что делает сам PlatformIO
             cp .pio/build/esp32-c6-supermini/firmware.factory.bin \
                "$OUT/esp32-c6-supermini_factory.bin"
             cp .pio/build/esp32-c6-supermini/firmware.bin \
