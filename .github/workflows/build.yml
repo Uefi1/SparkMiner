@@ -7,14 +7,8 @@ on:
 
 jobs:
   build:
-    name: build ${{ matrix.env }}
+    name: build esp32-c6-supermini
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        # Representative env per chip family (classic ESP32 / S3 / C3)
-        # + OLED variants so display envs get compile coverage
-        env: [esp32-c6-supermini]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -29,16 +23,14 @@ jobs:
           restore-keys: pio-${{ runner.os }}-
       - name: Install PlatformIO
         run: pip install platformio
-      - name: Build ${{ matrix.env }}
-        run: pio run -e ${{ matrix.env }}
-      - name: Upload test build
-        if: github.event_name == 'pull_request'
+      - name: Build esp32-c6-supermini
+        run: pio run -e esp32-c6-supermini
+      - name: Upload binary
         uses: actions/upload-artifact@v4
         with:
-          name: testbuild-${{ matrix.env }}
-          # Shallow PR checkouts make post_build_merge.py fall back to "dev"
-          # for its output dir; firmware/ also holds committed historical
-          # binaries that must not be uploaded.
-          path: firmware/dev/*_factory.bin
+          name: firmware-esp32-c6-supermini
+          path: |
+            firmware/**/*esp32-c6-supermini*.bin
+            .pio/build/esp32-c6-supermini/*.bin
           if-no-files-found: warn
           retention-days: 14
