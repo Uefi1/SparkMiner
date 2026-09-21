@@ -164,6 +164,15 @@ description = "Wemos Lolin32 with SSD1306 OLED (SDA=GPIO5, SCL=GPIO4, RST=GPIO16
 needs_boot_mode = false
 group = "OLED Display"
 
+[boards.esp32-c6-supermini]
+name = "ESP32-C6 SuperMini"
+env = "esp32-c6-supermini"
+chip = "esp32c6"
+description = "Single-core RISC-V, ultra-compact headless miner with HW SHA"
+needs_boot_mode = true
+port_changes_on_reset = true
+group = "Headless (No Display)"
+
 # ============================================================
 # Release Settings
 # ============================================================
