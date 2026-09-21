@@ -50,7 +50,7 @@ def detect_esp32_type(bootloader_path):
 
 def get_memory_layout(esp_type):
     """Get memory addresses for each ESP32 variant"""
-    if esp_type == 'ESP32-C3':
+    if esp_type in ('ESP32-C3', 'ESP32-C6'):
         return {'bootloader': 0x0000, 'partitions': 0x8000, 'firmware': 0x10000}
     elif esp_type == 'ESP32-S2':
         return {'bootloader': 0x1000, 'partitions': 0x8000, 'boot_app0': 0xE000, 'firmware': 0x10000}
@@ -80,6 +80,7 @@ def get_friendly_name(env_name):
     - Headless: esp32-headless
     """
     friendly_names = {
+        'esp32-c6-supermini': 'esp32-c6-supermini',
         'esp32-2432s028': 'cyd-1usb',
         'esp32-2432s028-st7789': 'cyd-1usb-st7789',
         'esp32-2432s028-2usb': 'cyd-2usb',
