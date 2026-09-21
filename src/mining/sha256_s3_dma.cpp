@@ -21,7 +21,7 @@ void sha256_s3_dma_test() {
         
         // Use _ret variants for better error handling and compatibility with newer IDF
         int ret = 0;
-        if ((ret = mbedtls_sha256_starts_ret(&ctx, 0)) != 0) {
+        if ((ret = mbedtls_sha256_starts(&ctx, 0)) != 0) {
              Serial.printf("[SHA-DMA] mbedtls_sha256_starts_ret failed: -0x%04x\n", -ret);
              mbedtls_sha256_free(&ctx);
              continue;
