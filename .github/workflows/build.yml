@@ -32,7 +32,7 @@ jobs:
       - name: Build esp32-c6-supermini
         run: pio run -e esp32-c6-supermini
 
-          - name: Collect firmware + factory
+      - name: Collect firmware + factory
         run: |
           OUT=firmware/esp32-c6-supermini
           mkdir -p "$OUT"
