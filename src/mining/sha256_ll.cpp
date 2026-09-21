@@ -20,6 +20,32 @@
 #endif
 
 // =============================================================================
+// ESP32-C6: map missing SHA register aliases
+// =============================================================================
+#if defined(CONFIG_IDF_TARGET_ESP32C6)
+#include <soc/sha_reg.h>
+
+// C6 uses SHA_H_MEM / SHA_M_MEM instead of SHA_H_BASE / SHA_TEXT_BASE
+#ifndef SHA_H_BASE
+#define SHA_H_BASE   SHA_H_MEM
+#endif
+#ifndef SHA_TEXT_BASE
+#define SHA_TEXT_BASE SHA_M_MEM
+#endif
+
+// DPORT_* macros are Xtensa-only; on RISC-V just use REG_READ/WRITE
+#ifndef DPORT_INTERRUPT_DISABLE
+#define DPORT_INTERRUPT_DISABLE()  do {} while (0)
+#endif
+#ifndef DPORT_INTERRUPT_RESTORE
+#define DPORT_INTERRUPT_RESTORE()  do {} while (0)
+#endif
+#ifndef DPORT_SEQUENCE_REG_READ
+#define DPORT_SEQUENCE_REG_READ(addr)  REG_READ(addr)
+#endif
+#endif // CONFIG_IDF_TARGET_ESP32C6
+
+// =============================================================================
 // Platform-specific register definitions
 // =============================================================================
 
