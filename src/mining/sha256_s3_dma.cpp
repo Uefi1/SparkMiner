@@ -27,14 +27,14 @@ void sha256_s3_dma_test() {
              continue;
         }
         
-        if ((ret = mbedtls_sha256_update_ret(&ctx, (const unsigned char*)inputs[i], strlen(inputs[i]))) != 0) {
-             Serial.printf("[SHA-DMA] mbedtls_sha256_update_ret failed: -0x%04x\n", -ret);
+        if ((ret = mbedtls_sha256_update(&ctx, (const unsigned char*)inputs[i], strlen(inputs[i]))) != 0) {
+             Serial.printf("[SHA-DMA] mbedtls_sha256_update failed: -0x%04x\n", -ret);
              mbedtls_sha256_free(&ctx);
              continue;
         }
         
-        if ((ret = mbedtls_sha256_finish_ret(&ctx, output)) != 0) {
-             Serial.printf("[SHA-DMA] mbedtls_sha256_finish_ret failed: -0x%04x\n", -ret);
+        if ((ret = mbedtls_sha256_finish(&ctx, output)) != 0) {
+             Serial.printf("[SHA-DMA] mbedtls_sha256_finish failed: -0x%04x\n", -ret);
              mbedtls_sha256_free(&ctx);
              continue;
         }
