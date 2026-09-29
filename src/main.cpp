@@ -335,6 +335,28 @@ void checkFactoryReset() {
 void setup() {
     Serial.begin(115200);
 
+    // Force all software-controlled status LEDs OFF (any board)
+#if defined(LED_R_PIN)
+    pinMode(LED_R_PIN, OUTPUT);
+    digitalWrite(LED_R_PIN, HIGH);   // CYD RGB usually active-low
+#endif
+#if defined(LED_G_PIN)
+    pinMode(LED_G_PIN, OUTPUT);
+    digitalWrite(LED_G_PIN, HIGH);
+#endif
+#if defined(LED_B_PIN)
+    pinMode(LED_B_PIN, OUTPUT);
+    digitalWrite(LED_B_PIN, HIGH);
+#endif
+#if defined(GPIO_LED_PIN)
+    pinMode(GPIO_LED_PIN, OUTPUT);
+    #if defined(GPIO_LED_ACTIVE_LOW) && GPIO_LED_ACTIVE_LOW
+        digitalWrite(GPIO_LED_PIN, HIGH);
+    #else
+        digitalWrite(GPIO_LED_PIN, LOW);
+    #endif
+#endif
+
     // Wait for USB CDC to be ready (with timeout for headless operation)
     // On ESP32-S3, Serial only becomes true when USB host enumerates CDC
     // Without timeout, device would block forever if no USB connected

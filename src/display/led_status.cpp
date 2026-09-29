@@ -9,6 +9,14 @@
 #include <board_config.h>
 #include "led_status.h"
 
+// ============================================================
+// FORCE DISABLE all status LEDs on every board
+// (blue/green/RGB blinking etc. — only hardware power LED remains)
+// ============================================================
+#undef USE_LED_STATUS
+#define USE_LED_STATUS 0
+
+
 #if USE_LED_STATUS && defined(RGB_LED_PIN)
 
 #include <FastLED.h>
